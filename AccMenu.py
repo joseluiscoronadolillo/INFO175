@@ -3,6 +3,7 @@
 
 import sys
 
+import Venta
 from PySide import QtGui, QtCore
 from MenuPrincipal import Ui_MenuPrincipal
 
@@ -34,6 +35,9 @@ class MenuApp(QtGui.QDialog):
 		print "Abriendo ventana clientes"
 		
 	def show_venta(self):
+		self.reject()
+		form = Venta.VentasApp()
+		form.exec_()
 		print "Abriendo ventana ventas"
 		
 	def cerrar_ventana(self):

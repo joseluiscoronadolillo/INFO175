@@ -7,6 +7,9 @@ import sys
 from PySide import QtGui, QtCore
 #import controller
 import Ventas
+import MenuPrincipal
+import AccMenu
+
 from Ventas import Ui_Ventas
 
 class VentasApp(QtGui.QDialog):
@@ -29,7 +32,7 @@ class VentasApp(QtGui.QDialog):
 		self.ui.CrearVenta.clicked.connect(self.show_add)
 		self.ui.EditarVenta.clicked.connect(self.show_edit)
 		self.ui.EliminarVenta.clicked.connect(self.delete)
-		#self.ui.BackToMenu.clicked.connect()
+		self.ui.BackToMenu.clicked.connect(self.volver)
 		#self.ui.table_productos.doubleClicked.connect(self.show_edit)
 		
 
@@ -151,6 +154,11 @@ class VentasApp(QtGui.QDialog):
 			#	self.ui.errorMessageDialog.showMessage(" El registro no fue eliminado")
 			#	return False
 		self.ui.FiltroSucursales.addItem("Todos",-1)
+		
+	def volver(self):
+		self.reject()
+		form = AccMenu.MenuApp()
+		form.exec_()
 		
 
 
