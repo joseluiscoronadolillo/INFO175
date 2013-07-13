@@ -5,7 +5,7 @@
 import sys
 
 from PySide import QtGui, QtCore
-#import controller
+import controllerV
 import Ventas
 import MenuPrincipal
 import AccMenu
@@ -19,7 +19,7 @@ class VentasApp(QtGui.QDialog):
 		self.ui = Ui_Ventas()
 		self.ui.setupUi(self)
 		self.cargar_ventas()
-		#self.cargar_marcas()
+		self.cargar_sucursal()
 
 		self.show()
 		self.set_listeners()
@@ -27,92 +27,82 @@ class VentasApp(QtGui.QDialog):
 
 	def set_listeners(self):
 		self.ui.FiltroSucursales.activated[int].connect(self.cargar_sucursales)
-		#self.ui.producto.activated[int].connect(self.completar)
 		self.ui.BuscarLabel.clicked.connect(self.cargar_venta_por_buscar)
 		self.ui.CrearVenta.clicked.connect(self.show_add)
 		self.ui.EditarVenta.clicked.connect(self.show_edit)
 		self.ui.EliminarVenta.clicked.connect(self.delete)
 		self.ui.BackToMenu.clicked.connect(self.volver)
-		#self.ui.table_productos.doubleClicked.connect(self.show_edit)
+		self.ui.TablaVentas.doubleClicked.connect(self.show_edit)
 		
 
 
-#	def cargar_marcas(self):
-		#marcas = controller.obtener_marcas()
-		#self.ui.combo_marcas.addItem("Todos",-1)
-		#for marca in marcas:
-		#	self.ui.combo_marcas.addItem(marca["nombre"], marca["id_marca"])
-		#self.ui.combo_marcas.setEditable(True)
-		#completer = QtGui.QCompleter(map(lambda c: c["nombre"], marcas), self)
-		#completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
-		#self.ui.combo_marcas.setCompleter(completer)
+	def cargar_sucursal(self):
+		sucursales = controllerV.obtener_sucursales()
+		self.ui.FiltroSucursales.addItem("Todos",-1)
+		for sucursal in sucursales:
+			self.ui.FiltroSucursales.addItem(sucursal["Ciudad"], sucursal["Id_sucursal"])
+		self.ui.FiltroSucursales.setEditable(True)
+		completer = QtGui.QCompleter(map(lambda c: c["Ciudad"], sucursales), self)
+		completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+		self.ui.FiltroSucursales.setCompleter(completer)
 		
-#MODIFICAR DEPENDIENDO DEL CONTROLLER
+
 	def cargar_venta_por_buscar(self):
-		word = self.ui.busqueda.text()
-		#ventas = controller. Metodo (word)
-		#self.cargar_ventas(ventas)
+		word = self.ui.Busqueda.text()
+		ventas = controllerV.buscar_venta(word)
+		self.cargar_ventas(ventas)
 		
 
 	def cargar_sucursales(self, index):
-		print "Cargar sucursales"
-		#id_marca = self.ui.combo_marcas.itemData(self.ui.combo_marcas.currentIndex())
-		#if id_marca == -1:
-			#productos = controller.obtener_productos()
-		#else:
-			#productos = controller.obtener_producto(id_marca)
-		#self.cargar_productos(productos)
+		id_sucursal = self.ui.FiltroSucursales.itemData(self.ui.FiltroSucursales.currentIndex())
+		if id_sucursal == -1:
+			ventas = controllerV.obtener_ventas()
+		else:
+			ventas = controllerV.obtener_venta(id_sucursal)
+		self.cargar_ventas(ventas)
 	
 
 	def cargar_ventas(self, ventas = None):
 		if ventas is None:
-			print "Ventas de la tabla"
-			#ventas = controller.obtener_productos()
+			ventas = controllerV.obtener_ventas()
 		
-		#self.model = QtGui.QStandardItemModel(len(ventas),8)
-		#self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Fecha"))
-		#self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem(u"Documento"))
-		#self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem(u"Sucursal"))
-		#self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem(u"Rut"))
-		#self.model.setHorizontalHeaderItem(4, QtGui.QStandardItem(u"Detalle"))
-		#self.model.setHorizontalHeaderItem(5, QtGui.QStandardItem(u"Neto"))
-		#self.model.setHorizontalHeaderItem(6, QtGui.QStandardItem(u"IVA"))
-		#self.model.setHorizontalHeaderItem(7, QtGui.QStandardItem(u"Total"))
-		#r = 0
-		#for row in productos:
-		#	index = self.model.index(r, 0, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 1, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 2, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 3, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 4, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 5, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 6, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	index = self.model.index(r, 7, QtCore.QModelIndex());
-		#	self.model.setData(index, row[''])
-		#	r = r+1
+		self.model = QtGui.QStandardItemModel(len(ventas),6)
+		self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Fecha"))
+		self.model.setHorizontalHeaderItem(1, QtGui.QStandardItem(u"Tipo Documento"))
+		self.model.setHorizontalHeaderItem(2, QtGui.QStandardItem(u"Detalle Compra"))
+		self.model.setHorizontalHeaderItem(3, QtGui.QStandardItem(u"Neto"))
+		self.model.setHorizontalHeaderItem(4, QtGui.QStandardItem(u"IVA"))
+		self.model.setHorizontalHeaderItem(5, QtGui.QStandardItem(u"Total"))
+		r = 0
+		for row in ventas:
+			index = self.model.index(r, 0, QtCore.QModelIndex());
+			self.model.setData(index, row['Fecha'])
+			index = self.model.index(r, 1, QtCore.QModelIndex());
+			self.model.setData(index, row['Documento'])
+			index = self.model.index(r, 2, QtCore.QModelIndex());
+			self.model.setData(index, row['Detalle'])
+			index = self.model.index(r, 3, QtCore.QModelIndex());
+			self.model.setData(index, row['Neto'])
+			index = self.model.index(r, 4, QtCore.QModelIndex());
+			self.model.setData(index, row['IVA'])
+			index = self.model.index(r, 5, QtCore.QModelIndex());
+			self.model.setData(index, row['Total'])
+			r = r+1
 		
-		#self.ui.TablaVentas.setModel(self.model)
-		#self.ui.TablaVentas.setColumnWidth(0,50)
-		#self.ui.TablaVentas.setColumnWidth(1,50)
-		#self.ui.TablaVentas.setColumnWidth(2,100)
-		#self.ui.TablaVentas.setColumnWidth(3,100)
-		#self.ui.TablaVentas.setColumnWidth(4,100)
-		#self.ui.TablaVentas.setColumnWidth(5,100)
-		#self.ui.TablaVentas.setColumnWidth(6,100)
-		#self.ui.TablaVentas.setColumnWidth(7,100)
+		self.ui.TablaVentas.setModel(self.model)
+		self.ui.TablaVentas.setColumnWidth(0,100)
+		self.ui.TablaVentas.setColumnWidth(1,150)
+		self.ui.TablaVentas.setColumnWidth(2,150)
+		self.ui.TablaVentas.setColumnWidth(3,100)
+		self.ui.TablaVentas.setColumnWidth(4,100)
+		self.ui.TablaVentas.setColumnWidth(5,100)
 	
-	
+	#Falta implementar
 	def show_add(self):
 		print "Abre ventana para agregar"
 		
 
+	#Falta implementar
 	def show_edit(self):
 		model = self.ui.TablaVentas.model()
 		index = self.ui.TablaVentas.currentIndex()
@@ -127,7 +117,8 @@ class VentasApp(QtGui.QDialog):
 			#form.rejected.connect(self.cargar_productos)
 			#form.exec_()
 	
-		
+	
+	#NO FUNCIONA	
 	def delete(self):
 		model = self.ui.TablaVentas.model()
 		index = self.ui.TablaVentas.currentIndex()
@@ -136,23 +127,22 @@ class VentasApp(QtGui.QDialog):
 			self.errorMessageDialog.showMessage(" Debe seleccionar una fila")
 			return False
 		else:
-			print " eliminando fila"
-			#codigo = model.index(index.row(), 0, QtCore.QModelIndex()).data()
-			#self.cargar_productos()
-			#msgBox = QtGui.QMessageBox()
-			#msgBox.setText("El registro fue eliminado.")
-			#msgBox.setInformativeText("Desea guardar los cambios?")
-			#msgBox.setStandardButtons(QtGui.QMessageBox.Save | QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
-			#msgBox.setDefaultButton(QtGui.QMessageBox.Save)
-			#ret = msgBox.exec_()
-			#if ret == QtGui.QMessageBox.Save:
-				#controller.delete(codigo)
-				#self.cargar_productos()
-				#return True
-			#else:
-			#	self.ui.errorMessageDialog = QtGui.QErrorMessage(self)
-			#	self.ui.errorMessageDialog.showMessage(" El registro no fue eliminado")
-			#	return False
+			id_venta = model.index(index.row(), 0, QtCore.QModelIndex()).data()
+			self.cargar_ventas()
+			msgBox = QtGui.QMessageBox()
+			msgBox.setText("El registro fue eliminado.")
+			msgBox.setInformativeText("Seguro que desea eliminar?")
+			msgBox.setStandardButtons(QtGui.QMessageBox.Save | QtGui.QMessageBox.Discard | QtGui.QMessageBox.Cancel)
+			msgBox.setDefaultButton(QtGui.QMessageBox.Save)
+			ret = msgBox.exec_()
+			if ret == QtGui.QMessageBox.Save:
+				controllerV.delete(id_venta)
+				self.cargar_ventas()
+				return True
+			else:
+				self.ui.errorMessageDialog = QtGui.QErrorMessage(self)
+				self.ui.errorMessageDialog.showMessage(" El registro no fue eliminado")
+				return False
 		self.ui.FiltroSucursales.addItem("Todos",-1)
 		
 	def volver(self):
