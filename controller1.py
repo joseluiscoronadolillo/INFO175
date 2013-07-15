@@ -62,7 +62,7 @@ def editar_sucursal(Ciudad, Direccion, CantidadVentas, Total):
 	exito = False
 	con = connect()
 	c = con.cursor()
-	values = [Ciudad, Direccion, CantidadVentas, Total]
+	values = [Direccion, CantidadVentas, Total, Ciudad]
 	query = """UPDATE  Sucursal SET Direccion = ?, CantidadVentas= ?, Total= ? WHERE Ciudad = ?"""
 	try:
 		resultado = c.execute(query, values)
