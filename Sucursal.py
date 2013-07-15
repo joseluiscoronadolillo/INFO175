@@ -8,8 +8,10 @@ import controller1
 import Sucursales
 import MenuPrincipal
 import AccMenu
+import agrega_suc
 
 from Sucursales import Ui_Sucursal
+#from edita_sucursal import Ui_Form
 
 class SucursalApp(QtGui.QDialog):
 	
@@ -18,7 +20,6 @@ class SucursalApp(QtGui.QDialog):
 		self.ui = Ui_Sucursal()
 		self.ui.setupUi(self)
 		self.cargar_sucursales()
-
 		self.show()
 		self.set_listeners()
 		
@@ -62,14 +63,13 @@ class SucursalApp(QtGui.QDialog):
 		self.ui.tableView.setColumnWidth(2,150)
 		self.ui.tableView.setColumnWidth(3,150)
 		
-		
-	
-	#IMPLEMENTAR	
+			
 	def show_add(self):
 		print "Abre ventana para agregar"
-	
-	
-	#IMPLEMENTAR	
+		edita_sucursal = agrega_suc.Form(self)
+		edita_sucursal.rejected.connect(self.cargar_sucursales)
+		edita_sucursal.exec_()
+			
 	def show_edit(self):
 		model = self.ui.tableView.model()
 		index = self.ui.tableView.currentIndex()
@@ -78,13 +78,12 @@ class SucursalApp(QtGui.QDialog):
 			self.errorMessageDialog.showMessage(" Debe seleccionar una fila")
 			return False
 		else:
-			print "Abre ventana para editar"
-			#codigo = model.index(index.row(), 0, QtCore.QModelIndex()).data()
-			#form = agrega_view.Form(self, codigo)
-			#form.rejected.connect(self.cargar_productos)
-			#form.exec_()
+			#print "Abre ventana para editar"
+			ciudad = model.index(index.row(), 0, QtCore.QModelIndex()).data()
+			edita_sucursal = agrega_suc.Form(self,ciudad)
+			edita_sucursal.rejected.connect(self.cargar_sucursales)
+			edita_sucursal.exec_()
 	
-	#NO FUNCIONA
 	def delete(self):
 		model = self.ui.tableView.model()
 		index = self.ui.tableView.currentIndex()

@@ -21,6 +21,15 @@ def obtener_sucursales():
     con.close()
     return sucursales
     
+def obtener_sucursal(ciudad):
+	con = connect()
+	c = con.cursor()
+	query= "SELECT * FROM sucursal WHERE ciudad = ?"
+	resultado = c.execute(query, [ciudad])
+	sucursal = resultado.fetchone()
+	con.close
+	return sucursal
+	
 def buscar_sucursal(word):
 	con = connect()
 	c = con.cursor()
@@ -31,15 +40,47 @@ def buscar_sucursal(word):
 	sucursales = resultado.fetchall()
 	con.close()
 	return sucursales
+def crear_sucursal(Ciudad, Direccion, CantidadVentas, Total):
+	exito = False
+	con = connect()
+	c = con.cursor()
+	values = [Ciudad, Direccion, CantidadVentas, Total]
+	query = "INSERT INTO sucursal (Ciudad, Direccion, CantidadVentas, Total) VALUES (?,?,?,?)"
+	try:
+		resultado = c.execute(query, values)
+		con.commit()
+		exito = True
+	except sqlite3.Error as e:
+		exito = False
+		print "Error:", e.args[0]
+		con.close()
+	return exito
+		
 
-
-def delete(id_sucursal):
+#Metodo que edita una fila de la tabla productos segun, direccionandose por su codigo   
+def editar_sucursal(Ciudad, Direccion, CantidadVentas, Total):
+	exito = False
+	con = connect()
+	c = con.cursor()
+	values = [Ciudad, Direccion, CantidadVentas, Total]
+	query = """UPDATE  Sucursal SET Direccion = ?, CantidadVentas= ?, Total= ? WHERE Ciudad = ?"""
+	try:
+		resultado = c.execute(query, values)
+		con.commit()
+		exito = True
+	except sqlite3.Error as e:
+		exito = False
+		print "Error:", e.args[0]
+	con.close()
+	return exito
+	
+def delete(ciudad):
     exito = False
     con = connect()
     c = con.cursor()
-    query = "DELETE FROM sucursal WHERE Id_sucursal = ?"
+    query = "DELETE FROM sucursal WHERE ciudad = ?"
     try:
-        resultado = c.execute(query, [id_sucursal])
+        resultado = c.execute(query, [ciudad])
         con.commit()
         exito = True
     except sqlite3.Error as e:

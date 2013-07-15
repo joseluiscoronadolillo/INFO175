@@ -26,7 +26,6 @@ class MenuApp(QtGui.QDialog):
 		self.ui.Salir.clicked.connect(self.cerrar_ventana)
 		self.ui.Info.clicked.connect(self.mostrar_datos)
 		
-
 	def show_sucursal(self):
 		self.reject()
 		form = Sucursal.SucursalApp()
