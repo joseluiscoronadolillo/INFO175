@@ -110,7 +110,7 @@
     <string/>
    </property>
    <property name="placeholderText">
-    <string>Ingrese lo que desea buscar</string>
+    <string>Ej: 17585114-3</string>
    </property>
   </widget>
   <widget class="QPushButton" name="BuscarLabel">

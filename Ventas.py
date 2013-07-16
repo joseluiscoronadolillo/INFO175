@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Ventas.ui'
 #
-# Created: Thu Jun 27 11:32:35 2013
+# Created: Tue Jul 16 19:16:13 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -52,6 +52,6 @@ class Ui_Ventas(object):
         self.EditarVenta.setText(QtGui.QApplication.translate("Ventas", "Editar", None, QtGui.QApplication.UnicodeUTF8))
         self.EliminarVenta.setText(QtGui.QApplication.translate("Ventas", "Eliminar", None, QtGui.QApplication.UnicodeUTF8))
         self.BackToMenu.setText(QtGui.QApplication.translate("Ventas", "Menu", None, QtGui.QApplication.UnicodeUTF8))
-        self.Busqueda.setPlaceholderText(QtGui.QApplication.translate("Ventas", "Ingrese lo que desea buscar", None, QtGui.QApplication.UnicodeUTF8))
+        self.Busqueda.setPlaceholderText(QtGui.QApplication.translate("Ventas", "Ej: 17585114-3", None, QtGui.QApplication.UnicodeUTF8))
         self.BuscarLabel.setText(QtGui.QApplication.translate("Ventas", "Buscar", None, QtGui.QApplication.UnicodeUTF8))
 

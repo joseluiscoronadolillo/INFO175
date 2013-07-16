@@ -50,7 +50,7 @@ class VentasApp(QtGui.QDialog):
 
 	def cargar_venta_por_buscar(self):
 		word = self.ui.Busqueda.text()
-		ventas = controllerV.buscar_venta(word)
+		ventas = controller2.buscar_venta(word)
 		self.cargar_ventas(ventas)
 		
 
