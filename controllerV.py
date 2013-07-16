@@ -17,6 +17,7 @@ def crear_bd(db_name):
     c.execute("""CREATE TABLE ventas("Id_venta" integer primary key AUTOINCREMENT, "Fecha" date, "Documento" text, "Detalle" text, "Neto" int, "IVA" int, "Total" int, "fk_id_sucursal" int, "fk_rut" text)""")
     c.execute("""INSERT INTO ventas VALUES(1, "09/07/2013", "Cheque", "Blusa", 10000, 1900, 11900, 1, "17585114-3")""")
     c.execute("""INSERT INTO ventas VALUES(2, "09/07/2013", "Cheque", "Blusa", 10000, 1900, 11900, 5, "16806320-2")""")
+    c.execute("""INSERT INTO ventas VALUES(3, "10/07/2013", "Efectivo", "Pantalon", 7990, 1518, 9508, 9, "17693283-k")""")
     
     c.execute("""CREATE TABLE sucursal("Id_sucursal" integer primary key AUTOINCREMENT, "Ciudad" text, "Direccion" text, "CantidadVentas" int, "Total" int)""")
     c.execute("""INSERT INTO sucursal VALUES (1,"Iquique","Héroes de la Concepción 2555", 10, 100000)""")
@@ -48,66 +49,7 @@ def crear_bd(db_name):
     conn.commit()
     return conn
 
-#muestra todas las ventas
-def obtener_ventas():
-    con = conectar()
-    c = con.cursor()
-    query = """SELECT a.Id_venta, a.Fecha, a.Documento, a.Detalle, a.Neto, a.IVA, a.Total, b.Ciudad as 'Sucursal'
-			FROM ventas a, sucursal b WHERE a.fk_id_sucursal = b.id_sucursal"""
-    resultado= c.execute(query)
-    ventas = resultado.fetchall()
-    con.close()
-    return ventas
 
-
-#muestra ventas por filtro    
-def obtener_venta(id_sucursal):
-    con = conectar()
-    c = con.cursor()
-    query = """SELECT a.Id_venta, a.Fecha, a.Documento, a.Detalle, a.Neto, a.IVA, a.Total, b.Ciudad as 'Sucursal'
-			FROM ventas a, sucursal b WHERE a.fk_id_sucursal = b.id_sucursal AND a.fk_id_sucursal = ?"""
-    resultado= c.execute(query, [id_sucursal])
-    ventas = resultado.fetchall()
-    con.close()
-    return ventas
-
-
-def obtener_sucursales():
-	con = conectar()
-	c = con.cursor()
-	query = """SELECT Id_sucursal, Ciudad FROM sucursal"""
-	resultado = c.execute(query)
-	sucursales = resultado.fetchall()
-	con.close()
-	return sucursales
-	
-
-
-def buscar_venta(word):
-	con = conectar()
-	c = con.cursor()
-	query = """SELECT a.Id_venta, a.Fecha, a.Documento, a.Detalle, a.Neto, a.IVA, a.Total, b.Nombres as 'Cliente'
-			FROM ventas a, cliente b WHERE a.fk_rut = b.Rut
-			AND (a.fk_rut LIKE '%'||?||'%' )"""
-	resultado = c.execute(query, [word])
-	ventas = resultado.fetchall()
-	con.close()
-	return ventas
-	
-def delete(id_venta):
-    exito = False
-    con = conectar()
-    c = con.cursor()
-    query = "DELETE FROM ventas WHERE Id_venta = ?"
-    try:
-        resultado = c.execute(query, [id_venta])
-        con.commit()
-        exito = True
-    except sqlite3.Error as e:
-        exito = False
-        print "Error:", e.args[0]
-    con.close()
-    return exito
 
 if __name__ == "__main__":
 	

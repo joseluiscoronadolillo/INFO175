@@ -40,6 +40,7 @@ def buscar_sucursal(word):
 	sucursales = resultado.fetchall()
 	con.close()
 	return sucursales
+
 def crear_sucursal(Ciudad, Direccion, CantidadVentas, Total):
 	exito = False
 	con = connect()
@@ -62,7 +63,7 @@ def editar_sucursal(Ciudad, Direccion, CantidadVentas, Total):
 	exito = False
 	con = connect()
 	c = con.cursor()
-	values = [Direccion, CantidadVentas, Total, Ciudad]
+	values = [ Direccion, CantidadVentas, Total, Ciudad]
 	query = """UPDATE  Sucursal SET Direccion = ?, CantidadVentas= ?, Total= ? WHERE Ciudad = ?"""
 	try:
 		resultado = c.execute(query, values)

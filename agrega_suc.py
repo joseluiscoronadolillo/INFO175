@@ -4,7 +4,7 @@
 from PySide import QtGui, QtCore
 
 import controller1
-from edita_venta import Ui_Form
+from edita_sucursal import Ui_Form
 
 class Form(QtGui.QDialog):
     def __init__(self, parent=None, ciudad=None):
@@ -40,7 +40,8 @@ class Form(QtGui.QDialog):
 		if resultado:
 			self.reject() #Cerramos y esto cargara nuevamente la grilla
 		else:
-			self.ui.mensajes.setText("Hubo un problema al intentar crear el alumno")  
+			self.ui.errorMessageDialog = QtGui.QErrorMessage(self)
+			self.ui.errorMessageDialog.showMessage("Hubo un problema al intentar crear la sucursal")  
 						
     def cancel(self):
         self.reject()  
@@ -56,4 +57,4 @@ class Form(QtGui.QDialog):
 			self.reject()
 		else:
 			self.ui.errorMessageDialog = QtGui.QErrorMessage(self)
-			self.ui.errorMessageDialog.showMessage("Hubo un problema al intentar editar el producto")
+			self.ui.errorMessageDialog.showMessage("Hubo un problema al intentar editar la sucursal")

@@ -5,13 +5,11 @@ import sys
 
 from PySide import QtGui, QtCore
 import controller1
-import Sucursales
 import MenuPrincipal
 import AccMenu
 import agrega_suc
 
 from Sucursales import Ui_Sucursal
-from edita_sucursal import Ui_Form
 
 class SucursalApp(QtGui.QDialog):
 	
@@ -77,16 +75,13 @@ class SucursalApp(QtGui.QDialog):
 			self.errorMessageDialog = QtGui.QErrorMessage(self)
 			self.errorMessageDialog.showMessage(" Debe seleccionar una fila")
 			return False
-			
 		else:
-			
+			#print "Abre ventana para editar"
 			ciudad = model.index(index.row(), 0, QtCore.QModelIndex()).data()
-			Form= agrega_suc.Form(self,ciudad)
-			Form.rejected.connect(self.cargar_sucursales)
-			Form.exec_()
-			
-			
-	          
+			edita_sucursal = agrega_suc.Form(self,ciudad)
+			edita_sucursal.rejected.connect(self.cargar_sucursales)
+			edita_sucursal.exec_()
+	
 	def delete(self):
 		model = self.ui.tableView.model()
 		index = self.ui.tableView.currentIndex()

@@ -5,10 +5,11 @@
 import sys
 
 from PySide import QtGui, QtCore
-import controllerV
-import Ventas
+import controller2
+import controller1
 import MenuPrincipal
 import AccMenu
+import agrga_ven
 
 from Ventas import Ui_Ventas
 
@@ -37,7 +38,7 @@ class VentasApp(QtGui.QDialog):
 
 
 	def cargar_sucursal(self):
-		sucursales = controllerV.obtener_sucursales()
+		sucursales = controller1.obtener_sucursales()
 		self.ui.FiltroSucursales.addItem("Todos",-1)
 		for sucursal in sucursales:
 			self.ui.FiltroSucursales.addItem(sucursal["Ciudad"], sucursal["Id_sucursal"])
@@ -56,15 +57,15 @@ class VentasApp(QtGui.QDialog):
 	def cargar_sucursales(self, index):
 		id_sucursal = self.ui.FiltroSucursales.itemData(self.ui.FiltroSucursales.currentIndex())
 		if id_sucursal == -1:
-			ventas = controllerV.obtener_ventas()
+			ventas = controller2.obtener_ventas()
 		else:
-			ventas = controllerV.obtener_venta(id_sucursal)
+			ventas = controller2.obtener_venta(id_sucursal)
 		self.cargar_ventas(ventas)
 	
 
 	def cargar_ventas(self, ventas = None):
 		if ventas is None:
-			ventas = controllerV.obtener_ventas()
+			ventas = controller2.obtener_ventas()
 		
 		self.model = QtGui.QStandardItemModel(len(ventas),6)
 		self.model.setHorizontalHeaderItem(0, QtGui.QStandardItem(u"Fecha"))
@@ -91,15 +92,18 @@ class VentasApp(QtGui.QDialog):
 		
 		self.ui.TablaVentas.setModel(self.model)
 		self.ui.TablaVentas.setColumnWidth(0,100)
-		self.ui.TablaVentas.setColumnWidth(1,150)
+		self.ui.TablaVentas.setColumnWidth(1,100)
 		self.ui.TablaVentas.setColumnWidth(2,150)
-		self.ui.TablaVentas.setColumnWidth(3,100)
+		self.ui.TablaVentas.setColumnWidth(3,150)
 		self.ui.TablaVentas.setColumnWidth(4,100)
 		self.ui.TablaVentas.setColumnWidth(5,100)
 	
 	#Falta implementar
 	def show_add(self):
-		print "Abre ventana para agregar"
+		#print "Abre ventana para agregar"
+		edita_venta = agrga_ven.Form(self)
+		edita_venta.rejected.connect(self.cargar_ventas)
+		edita_venta.exec_()
 		
 
 	#Falta implementar
@@ -112,10 +116,10 @@ class VentasApp(QtGui.QDialog):
 			return False
 		else:
 			print "Abre ventana para editar"
-			#codigo = model.index(index.row(), 0, QtCore.QModelIndex()).data()
-			#form = agrega_view.Form(self, codigo)
-			#form.rejected.connect(self.cargar_productos)
-			#form.exec_()
+			fecha = model.index(index.row(), 0, QtCore.QModelIndex()).data()
+			form = agrga_ven.Form(self, fecha)
+			form.rejected.connect(self.cargar_ventas)
+			form.exec_()
 	
 	
 	#NO FUNCIONA	
@@ -136,7 +140,7 @@ class VentasApp(QtGui.QDialog):
 			msgBox.setDefaultButton(QtGui.QMessageBox.Save)
 			ret = msgBox.exec_()
 			if ret == QtGui.QMessageBox.Save:
-				controllerV.delete(id_venta)
+				controller2.delete(id_venta)
 				self.cargar_ventas()
 				return True
 			else:
