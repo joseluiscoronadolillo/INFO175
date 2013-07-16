@@ -5,6 +5,7 @@ import sys
 
 import Venta
 import Sucursal
+import metodos
 from PySide import QtGui, QtCore
 from MenuPrincipal import Ui_MenuPrincipal
 
@@ -32,7 +33,9 @@ class MenuApp(QtGui.QDialog):
 		form.exec_()
 		
 	def show_cliente(self):
-		print "Abriendo ventana clientes"
+		self.reject()
+		form = metodos.ClienteApp()
+		form.exec_()
 		
 	def show_venta(self):
 		self.reject()

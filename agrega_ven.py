@@ -4,7 +4,7 @@
 from PySide import QtGui, QtCore
 
 import controller1
-from edita_venta import Ui_Form
+from edita_sucursal import Ui_Form
 
 class Form(QtGui.QDialog):
     def __init__(self, parent=None, ciudad=None):
@@ -44,16 +44,3 @@ class Form(QtGui.QDialog):
 						
     def cancel(self):
         self.reject()  
-    
-    def edita(self):
-		Ciudad = self.ui.lineEdit.text()
-		Direccion = self.ui.lineEdit_2.text()
-		CantidadVentas = self.ui.lineEdit_3.text()
-		Total = self.ui.lineEdit_4.text()
-		resultado = controller1.editar_sucursal(Ciudad, Direccion, CantidadVentas, Total)
-		
-		if resultado:
-			self.reject()
-		else:
-			self.ui.errorMessageDialog = QtGui.QErrorMessage(self)
-			self.ui.errorMessageDialog.showMessage("Hubo un problema al intentar editar el producto")
