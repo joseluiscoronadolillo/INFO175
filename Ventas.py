@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'Ventas.ui'
-#
-<<<<<<< HEAD
 # Created: Tue Jul 16 19:47:38 2013
-=======
-# Created: Tue Jul 16 19:16:13 2013
->>>>>>> 29c499d7add10c635eb82bcf6c81b9db22ac15e4
 #      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
