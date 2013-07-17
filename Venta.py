@@ -46,11 +46,11 @@ class VentasApp(QtGui.QDialog):
 		completer = QtGui.QCompleter(map(lambda c: c["Ciudad"], sucursales), self)
 		completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
 		self.ui.FiltroSucursales.setCompleter(completer)
-		
+	
 
 	def cargar_venta_por_buscar(self):
 		word = self.ui.Busqueda.text()
-		ventas = controllerV.buscar_venta(word)
+		ventas = controller2.buscar_venta(word)
 		self.cargar_ventas(ventas)
 		
 
@@ -60,8 +60,7 @@ class VentasApp(QtGui.QDialog):
 			ventas = controller2.obtener_ventas()
 		else:
 			ventas = controller2.obtener_venta(id_sucursal)
-		self.cargar_ventas(ventas)
-	
+		self.cargar_ventas(ventas)	
 
 	def cargar_ventas(self, ventas = None):
 		if ventas is None:

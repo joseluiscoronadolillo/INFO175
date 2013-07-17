@@ -35,8 +35,8 @@ def buscar_cliente(word):
 	c = con.cursor()
 	query = """SELECT a.Rut, a.Nombres, a.Apellidos, a.Correo, a.CantidadVentas, a.Total
 			FROM cliente a WHERE a.Rut
-			AND (a.Rut LIKE '%'||?||'%' )"""
-	resultado = c.execute(query, [word])
+			AND (a.Rut LIKE '%'||?||'%' OR a.Nombres LIKE '%'||?||'%' OR a.Apellidos LIKE '%'||?||'%' OR a.Correo LIKE '%'||?||'%' OR a.CantidadVentas LIKE '%'||?||'%' OR a.Total LIKE '%'||?||'%'  )"""
+	resultado = c.execute(query, [word, word, word, word, word, word])
 	clientes = resultado.fetchall()
 	con.close()
 	return clientes 

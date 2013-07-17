@@ -35,8 +35,8 @@ def buscar_sucursal(word):
 	c = con.cursor()
 	query = """SELECT a.Id_sucursal, a.Ciudad, a.Direccion, a.CantidadVentas, a.Total
 			FROM sucursal a WHERE a.Id_sucursal
-			AND (a.Ciudad LIKE '%'||?||'%' )"""
-	resultado = c.execute(query, [word])
+			AND (a.Ciudad LIKE '%'||?||'%' OR a.Direccion LIKE '%'||?||'%' OR a.CantidadVentas LIKE '%'||?||'%' OR a.Total LIKE '%'||?||'%')"""
+	resultado = c.execute(query, [word, word, word, word])
 	sucursales = resultado.fetchall()
 	con.close()
 	return sucursales

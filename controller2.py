@@ -27,7 +27,7 @@ def obtener_venta(Fecha):
     con = connect()
     c = con.cursor()
     query = """SELECT  a.Id_venta, a.Fecha, a.Documento, a.Detalle, a.Neto, a.IVA, a.Total, b.Ciudad as 'Sucursal'
-			FROM ventas a, sucursal b WHERE a.fk_id_sucursal = b.Id_sucursal AND a.Id_venta = ?"""
+			FROM ventas a, sucursal b WHERE a.fk_id_sucursal = b.Id_sucursal AND a.fk_id_sucursal = ?"""
     resultado= c.execute(query, [Fecha])
     ventas = resultado.fetchall()
     con.close()
@@ -38,8 +38,8 @@ def buscar_venta(word):
 	c = con.cursor()
 	query = """SELECT a.Id_venta, a.Fecha, a.Documento, a.Detalle, a.Neto, a.IVA, a.Total, b.Nombres as 'Cliente'
 			FROM ventas a, cliente b WHERE a.fk_rut = b.Rut
-			AND (a.fk_rut LIKE '%'||?||'%' )"""
-	resultado = c.execute(query, [word])
+			AND (a.fk_rut LIKE '%'||?||'%' OR a.Fecha LIKE '%'||?||'%' OR a.Documento LIKE '%'||?||'%' OR a.Detalle LIKE '%'||?||'%' OR a.Neto LIKE '%'||?||'%' OR a.IVA LIKE '%'||?||'%' OR a.Total LIKE '%'||?||'%')"""
+	resultado = c.execute(query, [word, word, word, word, word, word, word ])
 	ventas = resultado.fetchall()
 	con.close()
 	return ventas
