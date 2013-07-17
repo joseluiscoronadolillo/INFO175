@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'edita_venta.ui'
 #
-# Created: Tue Jul 16 00:54:50 2013
+# Created: Tue Jul 16 20:19:56 2013
 #      by: pyside-uic 0.2.13 running on PySide 1.1.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,7 +68,7 @@ class Ui_nueva_venta(object):
         self.label.setText(QtGui.QApplication.translate("nueva_venta", "Fecha:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("nueva_venta", " Documento:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("nueva_venta", "Neto:", None, QtGui.QApplication.UnicodeUTF8))
-        self.lineEdit.setPlaceholderText(QtGui.QApplication.translate("nueva_venta", "ej: cheque, factura,efectivo, crédito o débito ", None, QtGui.QApplication.UnicodeUTF8))
+        self.lineEdit.setPlaceholderText(QtGui.QApplication.translate("nueva_venta", "ej: cheque, efectivo, crédito o débito ", None, QtGui.QApplication.UnicodeUTF8))
         self.lineEdit_2.setPlaceholderText(QtGui.QApplication.translate("nueva_venta", "ej:10000, sin puntos", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("nueva_venta", "Detalle:", None, QtGui.QApplication.UnicodeUTF8))
         self.lineEdit_3.setPlaceholderText(QtGui.QApplication.translate("nueva_venta", "ej: blusa, lo que se compró", None, QtGui.QApplication.UnicodeUTF8))

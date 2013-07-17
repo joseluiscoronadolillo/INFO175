@@ -88,7 +88,7 @@
     </rect>
    </property>
    <property name="placeholderText">
-    <string>ej: cheque, factura,efectivo, crédito o débito </string>
+    <string>ej: cheque, efectivo, crédito o débito </string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit_2">
